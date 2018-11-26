@@ -7,11 +7,22 @@ type ListNode struct {
 
 func mergeKLists(lists []*ListNode) *ListNode {
 	lenth := len(lists)
-	var t *ListNode
-	for i := 0; i < lenth; i++ {
-		t = mergeTwoLists(t, lists[i])
+	if lenth == 0 {
+		return nil
 	}
-	return t
+	if lenth == 1 {
+		return lists[0]
+	}
+	var r []*ListNode
+	var i = 0
+	if lenth%2 != 0 {
+		r = append(r, lists[0])
+		i = 1
+	}
+	for ; i < lenth; i = i + 2 {
+		r = append(r, mergeTwoLists(lists[i], lists[i+1]))
+	}
+	return mergeKLists(r)
 }
 
 func mergeTwoLists(listsOne, listsTwo *ListNode) *ListNode {
